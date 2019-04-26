@@ -6,6 +6,8 @@ $categoryUrl = $block->getCategoryUrl($nodeId);
 $categoryUrl = $categoryUrl ?: '#';
 $dataAttribute = '';
 
+//echo "<pre>"; var_dump($block->getJsonConfig()); echo "</pre>";
+
 if ($block->getIsViewAllLink()) {
     $title = __('View All');
     $classLink = $class . '__inner-link';

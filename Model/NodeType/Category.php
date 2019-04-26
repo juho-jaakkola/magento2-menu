@@ -103,10 +103,11 @@ class Category extends AbstractNode
             $categoryIds[] = (int)$node->getContent();
         }
 
-        $categoryUrls = $this->getResource()->fetchData($storeId, $categoryIds);
+        /* \Snowdog\Menu\Model\ResourceModel\NodeType\Category::fetchData() */
+        $categories = $this->getResource()->fetchData($storeId, $categoryIds);
 
         $this->profiler->stop(__METHOD__);
 
-        return [$localNodes, $categoryUrls];
+        return [$localNodes, $categories];
     }
 }

@@ -27,6 +27,10 @@ class Category extends AbstractNode
      */
     protected $categoryUrls;
     /**
+     * @var array
+     */
+    protected $categories;
+    /**
      * @var Registry
      */
     private $coreRegistry;
@@ -102,7 +106,7 @@ class Category extends AbstractNode
     {
         $storeId = $this->_storeManager->getStore()->getId();
 
-        list($this->nodes, $this->categoryUrls) = $this->_categoryModel->fetchData($nodes, $storeId);
+        list($this->nodes, $this->categories) = $this->_categoryModel->fetchData($nodes, $storeId);
     }
 
     /**
@@ -175,5 +179,31 @@ HTML;
     public function getLabel()
     {
         return __("Category");
+    }
+
+
+    /**
+     * @param int $nodeId
+     * @param int|null $storeId
+     * @return string|false
+     * @throws \InvalidArgumentException
+     */
+    public function getCategory($nodeId, $storeId = null)
+    {
+        if (!isset($this->nodes[$nodeId])) {
+            throw new \InvalidArgumentException('Invalid node identifier specified');
+        }
+
+        $node = $this->nodes[$nodeId];
+        $categoryId = (int) $node->getContent();
+
+        if (isset($this->categoryUrls[$categoryId])) {
+            $baseUrl = $this->_storeManager->getStore($storeId)->getBaseUrl();
+            $categoryUrlPath = $this->categoryUrls[$categoryId];
+
+            return $baseUrl . $categoryUrlPath;
+        }
+
+        return false;
     }
 }
